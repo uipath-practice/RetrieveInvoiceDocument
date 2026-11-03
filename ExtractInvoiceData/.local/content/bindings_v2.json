@@ -1,0 +1,22 @@
+{
+  "version": "2.0",
+  "resources": [
+    {
+      "activityDisplayName": "Download the invoice PDF",
+      "activityId": "DownloadStorageFile_1",
+      "resource": "bucket",
+      "key": "InvoicesStorage",
+      "id": "bucketInvoicesStorageInvoicesStorageFalse",
+      "value": {
+        "name": {
+          "defaultValue": "InvoicesStorage",
+          "isExpression": false,
+          "displayName": "Storage bucket name"
+        }
+      },
+      "metadata": {
+        "BindingsVersion": "2.2"
+      }
+    }
+  ]
+}

@@ -1,0 +1,605 @@
+{
+ "status": "ok",
+ "dataset": {
+  "id": "27c01d91da5d83cc",
+  "owner": "invoicesixp-b58ff8b5-ixp",
+  "name": "invoicesixp-b58ff8b5",
+  "title": "InvoicesIXP",
+  "description": "",
+  "created": "2026-11-03T07:56:26.374270Z",
+  "last_modified": "2026-11-03T07:57:05.625948Z",
+  "model_family": "transformer-english",
+  "source_ids": [
+   "db9622c5f4846f47",
+   "e547b2bb36e02bc7"
+  ],
+  "has_sentiment": true,
+  "limited_access": false,
+  "entity_defs": [
+   {
+    "id": "0ac5e2a907d874ad",
+    "name": "Amount",
+    "title": "",
+    "inherits_from": [
+     "0000000000000044"
+    ],
+    "trainable": true,
+    "color": 0,
+    "_entity_def_flags": [],
+    "instructions": ""
+   },
+   {
+    "id": "f8551af9afba5193",
+    "name": "Boolean",
+    "title": "Boolean",
+    "inherits_from": [
+     "0000000000000046"
+    ],
+    "trainable": true,
+    "color": 1,
+    "_entity_def_flags": [],
+    "instructions": "Use to represent boolean values in text."
+   },
+   {
+    "id": "cf7a56c34f8f58f0",
+    "name": "Date",
+    "title": "",
+    "inherits_from": [
+     "0000000000000007"
+    ],
+    "trainable": true,
+    "color": 2,
+    "_entity_def_flags": [],
+    "instructions": ""
+   },
+   {
+    "id": "9c245c753162abac",
+    "name": "Exact Text",
+    "title": "",
+    "inherits_from": [],
+    "trainable": true,
+    "color": 3,
+    "_entity_def_flags": [
+     "appears_verbatim"
+    ],
+    "instructions": ""
+   },
+   {
+    "id": "fd3e4c08ed7bb1eb",
+    "name": "Inferred Text",
+    "title": "Inferred Text",
+    "inherits_from": [],
+    "trainable": true,
+    "color": 4,
+    "_entity_def_flags": [],
+    "instructions": "Use for text that might not appear verbatim in the text."
+   },
+   {
+    "id": "28a28a17152eb57a",
+    "name": "Monetary Quantity",
+    "title": "",
+    "inherits_from": [
+     "0000000000000006"
+    ],
+    "trainable": true,
+    "color": 5,
+    "_entity_def_flags": [],
+    "instructions": ""
+   },
+   {
+    "id": "73129281b1f6e431",
+    "name": "Number",
+    "title": "Number",
+    "inherits_from": [
+     "0000000000000044"
+    ],
+    "trainable": true,
+    "color": 6,
+    "_entity_def_flags": [],
+    "instructions": "Use to represent amounts or quantities in text."
+   }
+  ],
+  "general_fields": [],
+  "label_groups": [
+   {
+    "name": "default",
+    "label_defs": [
+     {
+      "name": "Buyer Information",
+      "id": "4c24b46b32572ac6",
+      "instructions": "Extract details about the buyer (recipient) of the invoice.",
+      "moon_form": [
+       {
+        "field_id": "b769b8667d858122",
+        "id": "9c245c753162abac",
+        "field_type_id": "9c245c753162abac",
+        "kind": "Exact Text",
+        "name": "Buyer Name",
+        "instructions": "Extract the full name of the buyer/recipient of the invoice.",
+        "rule_set": null
+       },
+       {
+        "field_id": "0401ce72e82478c7",
+        "id": "9c245c753162abac",
+        "field_type_id": "9c245c753162abac",
+        "kind": "Exact Text",
+        "name": "Buyer Address",
+        "instructions": "Extract the full address of the buyer, including street, city, postal code, and country.",
+        "rule_set": null
+       },
+       {
+        "field_id": "9c7b68210264a3e2",
+        "id": "9c245c753162abac",
+        "field_type_id": "9c245c753162abac",
+        "kind": "Exact Text",
+        "name": "Buyer Country",
+        "instructions": "Extract the country of the buyer.",
+        "rule_set": null
+       },
+       {
+        "field_id": "2bff9cbae6feb2ff",
+        "id": "9c245c753162abac",
+        "field_type_id": "9c245c753162abac",
+        "kind": "Exact Text",
+        "name": "Buyer Tax ID",
+        "instructions": "Extract the tax identification number of the buyer.",
+        "rule_set": null
+       }
+      ]
+     },
+     {
+      "name": "Invoice Header",
+      "id": "1d37344d75638bba",
+      "instructions": "Extract general invoice information such as invoice number, dates, purchase order number, and currency.",
+      "moon_form": [
+       {
+        "field_id": "c94f62e52a2cfa0d",
+        "id": "9c245c753162abac",
+        "field_type_id": "9c245c753162abac",
+        "kind": "Exact Text",
+        "name": "Invoice Number",
+        "instructions": "Extract the unique invoice identification number.",
+        "rule_set": null
+       },
+       {
+        "field_id": "c7de276cdde8b70b",
+        "id": "cf7a56c34f8f58f0",
+        "field_type_id": "cf7a56c34f8f58f0",
+        "kind": "Date",
+        "name": "Invoice Date",
+        "instructions": "Extract the date the invoice was issued.",
+        "rule_set": null
+       },
+       {
+        "field_id": "1ef81757826ceee7",
+        "id": "cf7a56c34f8f58f0",
+        "field_type_id": "cf7a56c34f8f58f0",
+        "kind": "Date",
+        "name": "Due Date",
+        "instructions": "Extract the date by which the invoice payment is due.",
+        "rule_set": null
+       },
+       {
+        "field_id": "cf2b55001ebdca51",
+        "id": "9c245c753162abac",
+        "field_type_id": "9c245c753162abac",
+        "kind": "Exact Text",
+        "name": "Purchase Order Number",
+        "instructions": "Extract the purchase order number associated with this invoice.",
+        "rule_set": null
+       },
+       {
+        "field_id": "6ff1f7dae180bc70",
+        "id": "9c245c753162abac",
+        "field_type_id": "9c245c753162abac",
+        "kind": "Exact Text",
+        "name": "Currency",
+        "instructions": "Extract the currency used for all monetary values on the invoice (e.g., RON, AUD, USD, EUR).",
+        "rule_set": null
+       }
+      ]
+     },
+     {
+      "name": "Invoice Totals",
+      "id": "d43c4b6890d055c0",
+      "instructions": "Extract the summary of monetary amounts from the invoice.",
+      "moon_form": [
+       {
+        "field_id": "07d96dea88f47776",
+        "id": "28a28a17152eb57a",
+        "field_type_id": "28a28a17152eb57a",
+        "kind": "Monetary Quantity",
+        "name": "Subtotal",
+        "instructions": "Extract the subtotal amount before taxes and other charges. Include the currency.",
+        "rule_set": null
+       },
+       {
+        "field_id": "f5248a77bc0efa85",
+        "id": "9c245c753162abac",
+        "field_type_id": "9c245c753162abac",
+        "kind": "Exact Text",
+        "name": "Tax Name",
+        "instructions": "Extract the name of the tax applied (e.g., VAT, GST).",
+        "rule_set": null
+       },
+       {
+        "field_id": "96a60a372a456be1",
+        "id": "9c245c753162abac",
+        "field_type_id": "9c245c753162abac",
+        "kind": "Exact Text",
+        "name": "Tax Rate",
+        "instructions": "Extract the tax rate as a percentage (e.g., 19%, 10%).",
+        "rule_set": null
+       },
+       {
+        "field_id": "b5c42195037cd86c",
+        "id": "28a28a17152eb57a",
+        "field_type_id": "28a28a17152eb57a",
+        "kind": "Monetary Quantity",
+        "name": "Tax Amount",
+        "instructions": "Extract the total tax amount. Include the currency.",
+        "rule_set": null
+       },
+       {
+        "field_id": "7f142ac903177ed7",
+        "id": "28a28a17152eb57a",
+        "field_type_id": "28a28a17152eb57a",
+        "kind": "Monetary Quantity",
+        "name": "Total Amount",
+        "instructions": "Extract the grand total amount of the invoice, including all taxes and charges. Include the currency.",
+        "rule_set": null
+       }
+      ]
+     },
+     {
+      "name": "Line Items",
+      "id": "d340ab8fbb49972f",
+      "instructions": "Extract details for each individual line item listed on the invoice.",
+      "moon_form": [
+       {
+        "field_id": "b0bf41ddc285c007",
+        "id": "9c245c753162abac",
+        "field_type_id": "9c245c753162abac",
+        "kind": "Exact Text",
+        "name": "Description",
+        "instructions": "Extract the description of the item.",
+        "rule_set": null
+       },
+       {
+        "field_id": "899239431101b9dd",
+        "id": "0ac5e2a907d874ad",
+        "field_type_id": "0ac5e2a907d874ad",
+        "kind": "Amount",
+        "name": "Quantity",
+        "instructions": "Extract the quantity of the item.",
+        "rule_set": null
+       },
+       {
+        "field_id": "4a3744f544745872",
+        "id": "28a28a17152eb57a",
+        "field_type_id": "28a28a17152eb57a",
+        "kind": "Monetary Quantity",
+        "name": "Unit Price",
+        "instructions": "Extract the unit price of the item. Ensure to include the currency if specified in the column header.",
+        "rule_set": null
+       },
+       {
+        "field_id": "87b0f49a61c87a6e",
+        "id": "28a28a17152eb57a",
+        "field_type_id": "28a28a17152eb57a",
+        "kind": "Monetary Quantity",
+        "name": "Line Total",
+        "instructions": "Extract the total amount for the individual line item. Ensure to include the currency if specified in the column header.",
+        "rule_set": null
+       }
+      ]
+     },
+     {
+      "name": "Vendor Information",
+      "id": "7e2368a800d0b7f7",
+      "instructions": "Extract details about the vendor (sender) of the invoice.",
+      "moon_form": [
+       {
+        "field_id": "8cb6fc09f1b46b92",
+        "id": "9c245c753162abac",
+        "field_type_id": "9c245c753162abac",
+        "kind": "Exact Text",
+        "name": "Vendor Name",
+        "instructions": "Extract the full name of the vendor/sender of the invoice.",
+        "rule_set": null
+       },
+       {
+        "field_id": "bb64f7d3dbb2feb4",
+        "id": "9c245c753162abac",
+        "field_type_id": "9c245c753162abac",
+        "kind": "Exact Text",
+        "name": "Vendor Address",
+        "instructions": "Extract the full address of the vendor, including street, city, postal code, and country.",
+        "rule_set": null
+       },
+       {
+        "field_id": "e296342c0a457924",
+        "id": "9c245c753162abac",
+        "field_type_id": "9c245c753162abac",
+        "kind": "Exact Text",
+        "name": "Vendor Country",
+        "instructions": "Extract the country of the vendor.",
+        "rule_set": null
+       },
+       {
+        "field_id": "4c048b54fb450aa6",
+        "id": "9c245c753162abac",
+        "field_type_id": "9c245c753162abac",
+        "kind": "Exact Text",
+        "name": "Vendor Tax ID",
+        "instructions": "Extract the tax identification number of the vendor.",
+        "rule_set": null
+       }
+      ]
+     }
+    ],
+    "label_collection_name": null,
+    "trainable": true,
+    "hidden": false,
+    "instructions": "Extract information from supplier invoices for two-way matching against purchase orders. This includes header details, vendor and buyer information, line items, and total amounts."
+   }
+  ],
+  "label_defs": [
+   {
+    "name": "Buyer Information",
+    "id": "4c24b46b32572ac6",
+    "instructions": "Extract details about the buyer (recipient) of the invoice.",
+    "moon_form": [
+     {
+      "field_id": "b769b8667d858122",
+      "id": "9c245c753162abac",
+      "field_type_id": "9c245c753162abac",
+      "kind": "Exact Text",
+      "name": "Buyer Name",
+      "instructions": "Extract the full name of the buyer/recipient of the invoice.",
+      "rule_set": null
+     },
+     {
+      "field_id": "0401ce72e82478c7",
+      "id": "9c245c753162abac",
+      "field_type_id": "9c245c753162abac",
+      "kind": "Exact Text",
+      "name": "Buyer Address",
+      "instructions": "Extract the full address of the buyer, including street, city, postal code, and country.",
+      "rule_set": null
+     },
+     {
+      "field_id": "9c7b68210264a3e2",
+      "id": "9c245c753162abac",
+      "field_type_id": "9c245c753162abac",
+      "kind": "Exact Text",
+      "name": "Buyer Country",
+      "instructions": "Extract the country of the buyer.",
+      "rule_set": null
+     },
+     {
+      "field_id": "2bff9cbae6feb2ff",
+      "id": "9c245c753162abac",
+      "field_type_id": "9c245c753162abac",
+      "kind": "Exact Text",
+      "name": "Buyer Tax ID",
+      "instructions": "Extract the tax identification number of the buyer.",
+      "rule_set": null
+     }
+    ]
+   },
+   {
+    "name": "Invoice Header",
+    "id": "1d37344d75638bba",
+    "instructions": "Extract general invoice information such as invoice number, dates, purchase order number, and currency.",
+    "moon_form": [
+     {
+      "field_id": "c94f62e52a2cfa0d",
+      "id": "9c245c753162abac",
+      "field_type_id": "9c245c753162abac",
+      "kind": "Exact Text",
+      "name": "Invoice Number",
+      "instructions": "Extract the unique invoice identification number.",
+      "rule_set": null
+     },
+     {
+      "field_id": "c7de276cdde8b70b",
+      "id": "cf7a56c34f8f58f0",
+      "field_type_id": "cf7a56c34f8f58f0",
+      "kind": "Date",
+      "name": "Invoice Date",
+      "instructions": "Extract the date the invoice was issued.",
+      "rule_set": null
+     },
+     {
+      "field_id": "1ef81757826ceee7",
+      "id": "cf7a56c34f8f58f0",
+      "field_type_id": "cf7a56c34f8f58f0",
+      "kind": "Date",
+      "name": "Due Date",
+      "instructions": "Extract the date by which the invoice payment is due.",
+      "rule_set": null
+     },
+     {
+      "field_id": "cf2b55001ebdca51",
+      "id": "9c245c753162abac",
+      "field_type_id": "9c245c753162abac",
+      "kind": "Exact Text",
+      "name": "Purchase Order Number",
+      "instructions": "Extract the purchase order number associated with this invoice.",
+      "rule_set": null
+     },
+     {
+      "field_id": "6ff1f7dae180bc70",
+      "id": "9c245c753162abac",
+      "field_type_id": "9c245c753162abac",
+      "kind": "Exact Text",
+      "name": "Currency",
+      "instructions": "Extract the currency used for all monetary values on the invoice (e.g., RON, AUD, USD, EUR).",
+      "rule_set": null
+     }
+    ]
+   },
+   {
+    "name": "Invoice Totals",
+    "id": "d43c4b6890d055c0",
+    "instructions": "Extract the summary of monetary amounts from the invoice.",
+    "moon_form": [
+     {
+      "field_id": "07d96dea88f47776",
+      "id": "28a28a17152eb57a",
+      "field_type_id": "28a28a17152eb57a",
+      "kind": "Monetary Quantity",
+      "name": "Subtotal",
+      "instructions": "Extract the subtotal amount before taxes and other charges. Include the currency.",
+      "rule_set": null
+     },
+     {
+      "field_id": "f5248a77bc0efa85",
+      "id": "9c245c753162abac",
+      "field_type_id": "9c245c753162abac",
+      "kind": "Exact Text",
+      "name": "Tax Name",
+      "instructions": "Extract the name of the tax applied (e.g., VAT, GST).",
+      "rule_set": null
+     },
+     {
+      "field_id": "96a60a372a456be1",
+      "id": "9c245c753162abac",
+      "field_type_id": "9c245c753162abac",
+      "kind": "Exact Text",
+      "name": "Tax Rate",
+      "instructions": "Extract the tax rate as a percentage (e.g., 19%, 10%).",
+      "rule_set": null
+     },
+     {
+      "field_id": "b5c42195037cd86c",
+      "id": "28a28a17152eb57a",
+      "field_type_id": "28a28a17152eb57a",
+      "kind": "Monetary Quantity",
+      "name": "Tax Amount",
+      "instructions": "Extract the total tax amount. Include the currency.",
+      "rule_set": null
+     },
+     {
+      "field_id": "7f142ac903177ed7",
+      "id": "28a28a17152eb57a",
+      "field_type_id": "28a28a17152eb57a",
+      "kind": "Monetary Quantity",
+      "name": "Total Amount",
+      "instructions": "Extract the grand total amount of the invoice, including all taxes and charges. Include the currency.",
+      "rule_set": null
+     }
+    ]
+   },
+   {
+    "name": "Line Items",
+    "id": "d340ab8fbb49972f",
+    "instructions": "Extract details for each individual line item listed on the invoice.",
+    "moon_form": [
+     {
+      "field_id": "b0bf41ddc285c007",
+      "id": "9c245c753162abac",
+      "field_type_id": "9c245c753162abac",
+      "kind": "Exact Text",
+      "name": "Description",
+      "instructions": "Extract the description of the item.",
+      "rule_set": null
+     },
+     {
+      "field_id": "899239431101b9dd",
+      "id": "0ac5e2a907d874ad",
+      "field_type_id": "0ac5e2a907d874ad",
+      "kind": "Amount",
+      "name": "Quantity",
+      "instructions": "Extract the quantity of the item.",
+      "rule_set": null
+     },
+     {
+      "field_id": "4a3744f544745872",
+      "id": "28a28a17152eb57a",
+      "field_type_id": "28a28a17152eb57a",
+      "kind": "Monetary Quantity",
+      "name": "Unit Price",
+      "instructions": "Extract the unit price of the item. Ensure to include the currency if specified in the column header.",
+      "rule_set": null
+     },
+     {
+      "field_id": "87b0f49a61c87a6e",
+      "id": "28a28a17152eb57a",
+      "field_type_id": "28a28a17152eb57a",
+      "kind": "Monetary Quantity",
+      "name": "Line Total",
+      "instructions": "Extract the total amount for the individual line item. Ensure to include the currency if specified in the column header.",
+      "rule_set": null
+     }
+    ]
+   },
+   {
+    "name": "Vendor Information",
+    "id": "7e2368a800d0b7f7",
+    "instructions": "Extract details about the vendor (sender) of the invoice.",
+    "moon_form": [
+     {
+      "field_id": "8cb6fc09f1b46b92",
+      "id": "9c245c753162abac",
+      "field_type_id": "9c245c753162abac",
+      "kind": "Exact Text",
+      "name": "Vendor Name",
+      "instructions": "Extract the full name of the vendor/sender of the invoice.",
+      "rule_set": null
+     },
+     {
+      "field_id": "bb64f7d3dbb2feb4",
+      "id": "9c245c753162abac",
+      "field_type_id": "9c245c753162abac",
+      "kind": "Exact Text",
+      "name": "Vendor Address",
+      "instructions": "Extract the full address of the vendor, including street, city, postal code, and country.",
+      "rule_set": null
+     },
+     {
+      "field_id": "e296342c0a457924",
+      "id": "9c245c753162abac",
+      "field_type_id": "9c245c753162abac",
+      "kind": "Exact Text",
+      "name": "Vendor Country",
+      "instructions": "Extract the country of the vendor.",
+      "rule_set": null
+     },
+     {
+      "field_id": "4c048b54fb450aa6",
+      "id": "9c245c753162abac",
+      "field_type_id": "9c245c753162abac",
+      "kind": "Exact Text",
+      "name": "Vendor Tax ID",
+      "instructions": "Extract the tax identification number of the vendor.",
+      "rule_set": null
+     }
+    ]
+   }
+  ],
+  "_timezone": "UTC",
+  "_label_properties": [],
+  "_preferred_locales": {
+   "default": "en_GB",
+   "preferences": []
+  },
+  "_dataset_flags": [
+   "ixp"
+  ],
+  "_model_config": {
+   "kind": "gpt_ixp",
+   "model_version": "gemini_2_5_flash",
+   "input_config": null,
+   "system_prompt_override": null,
+   "frequency_penalty": null,
+   "temperature": null,
+   "top_p": null,
+   "seed": null,
+   "flags": [],
+   "iterative_config": null,
+   "attribution_method": "word_ids"
+  }
+ }
+}

@@ -23,6 +23,25 @@ public static class Program
         var root = argv.FirstOrDefault(a => !a.StartsWith("--")) ?? Directory.GetCurrentDirectory();
         var pdf = argv.Contains("--pdf");
         root = Path.GetFullPath(root);
+
+        // --generate <dir> <count>: write <count> invoice PDFs (clean and planted, every injector in turn) into <dir> — the
+        // training set for an IXP project. Nothing else runs.
+        var gi = Array.IndexOf(argv, "--generate");
+        if (gi >= 0)
+        {
+            var dir = Path.GetFullPath(argv[gi + 1]); var count = int.Parse(argv[gi + 2]);
+            var all = Catalogue.Default().Catalogue.Select(i => i.Id).Prepend("none").ToList();
+            Directory.CreateDirectory(dir);
+            for (var i = 0; i < count; i++)
+            {
+                var pin = all[i % all.Count];
+                var r = new Pipeline().Run(new GenerationConfig { Discrepancy = pin, Seed = 9000 + i * 7, LinesQuantity = 2 + i % 6, OutputFolder = Path.Combine(dir, "_work"), OutputFormat = "pdf" }, root);
+                File.Copy(r.InvoiceFile, Path.Combine(dir, Path.GetFileName(r.InvoiceFile)), true);
+            }
+            Directory.Delete(Path.Combine(dir, "_work"), true);
+            Console.WriteLine($"{count} invoice PDFs in {dir}");
+            return 0;
+        }
         var outRoot = Path.Combine(Path.GetTempPath(), "invoice-po-smoke");
         if (Directory.Exists(outRoot)) Directory.Delete(outRoot, true);
         var failures = new List<string>();

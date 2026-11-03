@@ -1,0 +1,59 @@
+{
+  "name": "ExtractInvoiceData",
+  "projectId": "5d2f7b9e-1c4a-4e8b-a6d3-9f0e2b7c4a15",
+  "description": "Invoice Matching exercise: reads a supplier invoice PDF from storage bucket InvoicesStorage with the IXP project InvoicesIXP and returns it as JSON in the exercise's invoice shape, plus the purchase-order number it references. Provided by the course; participants never build it.",
+  "main": "Main.xaml",
+  "dependencies": {
+    "UiPath.DocumentUnderstanding.Activities": "[3.3.0]",
+    "UiPath.System.Activities": "[26.6.2]",
+    "UiPath.System.Activities.Runtime": "[26.6.2]"
+  },
+  "webServices": [],
+  "entitiesStores": [],
+  "schemaVersion": "4.0",
+  "studioVersion": "26.0.186.0",
+  "projectVersion": "2.0.0",
+  "runtimeOptions": {
+    "autoDispose": false,
+    "netFrameworkLazyLoading": false,
+    "isPausable": true,
+    "isAttended": false,
+    "requiresUserInteraction": false,
+    "supportsPersistence": false,
+    "workflowSerialization": "NewtonsoftJson",
+    "excludedLoggedData": ["Private:*", "*password*"],
+    "executionType": "Workflow",
+    "readyForPiP": false,
+    "startsInPiP": false,
+    "mustRestoreAllDependencies": true,
+    "pipType": "ChildSession",
+    "robotVersion": "26.0.190"
+  },
+  "designOptions": {
+    "projectProfile": "Developement",
+    "outputType": "Process",
+    "libraryOptions": { "privateWorkflows": [] },
+    "processOptions": { "ignoredFiles": [] },
+    "fileInfoCollection": [],
+    "saveToCloud": false
+  },
+  "expressionLanguage": "VisualBasic",
+  "entryPoints": [
+    {
+      "filePath": "Main.xaml",
+      "uniqueId": "c7a9e3f5-2b1d-4f6e-8a4c-1d9b7e5f3a26",
+      "input": [
+        { "name": "in_InvoiceFileName", "displayName": "in_InvoiceFileName", "tooltip": "The invoice PDF's name in storage bucket InvoicesStorage (folder Tools), e.g. INV-22150825.pdf — the generator's out_InvoiceFileName.", "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e", "required": true, "hasDefault": false, "isExpression": false }
+      ],
+      "output": [
+        { "name": "out_InvoiceJSON", "displayName": "out_InvoiceJSON", "tooltip": "The invoice as JSON text in the exercise's invoice shape (invoiceNumber, poNumber, invoiceDate, dueDate, currency, vendor, buyer, lines[], subtotal, taxName, taxRate, taxTotal, total), as IXP read it from the PDF.", "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e" },
+        { "name": "out_PONumber", "displayName": "out_PONumber", "tooltip": "The purchase-order number IXP read from the invoice, PO-<8 digits>, for the PurchaseOrders lookup.", "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e" },
+        { "name": "out_InvoiceNumber", "displayName": "out_InvoiceNumber", "tooltip": "The invoice number IXP read from the invoice, INV-<8 digits>.", "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e" }
+      ]
+    }
+  ],
+  "isTemplate": false,
+  "templateProjectData": {},
+  "publishData": {},
+  "targetFramework": "Portable"
+}

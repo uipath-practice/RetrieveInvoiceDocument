@@ -5,6 +5,8 @@ The process participants' solutions **call but never build** in the Coding Agent
 | Path | Holds |
 |---|---|
 | `RetrieveInvoiceDocument/` | the RPA project (package id `RetrieveInvoiceDocument`, process `Retrieve Invoice Document`): `Main.xaml` wraps the coded workflow `GenerateInvoice.cs` and does the uploads; `Core/`, `Factory/`, `Discrepancies/`, `Render/`, `Models/` are the engine; `Templates/` the two HTML templates; `Data/` the CSVs |
+| `ExtractInvoiceData/` | the second provided process (`Extract Invoice Data (IXP)`): downloads an invoice from `InvoicesStorage`, extracts it with the IXP project `InvoicesIXP` (Studio Web DU activity, `DictionaryData`, no typed bundle) and `ShapeInvoice.cs` returns it in the exercise's invoice JSON shape plus the purchase-order number |
+| `tenant/ixp/` | the IXP project's exported taxonomy and the 15 generated invoices it was created from (`smoke --generate`); `tenant/repin-ixp.sh` pins the extraction project to the logged-in tenant's live version |
 | `scenarios.md` | the matrix — fourteen injectors, their colours, the answer-key shape. The contract between generator, prompt and tests |
 | `smoke/` | the only automated test: every injector against a clean pair of the same seed, outside UiPath |
 | `tenant/create-entities.sh` · `tenant/entities/*.json` | the two Data Fabric entities (`PurchaseOrders`, `PaymentsQueue`); `tenant.py provision` runs the script (`data_fabric.entities[].managed_by`) |

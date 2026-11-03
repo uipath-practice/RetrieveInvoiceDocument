@@ -1,0 +1,39 @@
+{
+  "$schema": "https://cloud.uipath.com/draft/2024-12/entry-point",
+  "entryPoints": [
+    {
+      "filePath": "Main.xaml",
+      "uniqueId": "c7a9e3f5-2b1d-4f6e-8a4c-1d9b7e5f3a26",
+      "type": "process",
+      "input": {
+        "type": "object",
+        "properties": {
+          "in_InvoiceFileName": {
+            "type": "string",
+            "description": "The invoice PDF's name in storage bucket InvoicesStorage (folder Tools), e.g. INV-22150825.pdf — the generator's out_InvoiceFileName."
+          }
+        },
+        "required": [
+          "in_InvoiceFileName"
+        ]
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "out_InvoiceJSON": {
+            "type": "string",
+            "description": "The invoice as JSON text, in the exercise's invoice shape: invoiceNumber, poNumber, invoiceDate, dueDate, currency, vendor {name, address, country, taxId}, buyer {…}, lines [{n, description, quantity, unitPrice, lineTotal}], subtotal, taxName, taxRate, taxTotal, total. Values are what IXP read from the PDF — they may contain extraction mistakes."
+          },
+          "out_PONumber": {
+            "type": "string",
+            "description": "The purchase-order number IXP read from the invoice (PO-<8 digits>), for the PurchaseOrders lookup."
+          },
+          "out_InvoiceNumber": {
+            "type": "string",
+            "description": "The invoice number IXP read from the invoice (INV-<8 digits>)."
+          }
+        }
+      }
+    }
+  ]
+}

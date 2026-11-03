@@ -1,0 +1,6 @@
+{
+  "Name": "ExtractInvoiceData",
+  "ProjectType": "Process",
+  "Description": "Invoice Matching exercise: reads a supplier invoice PDF from InvoicesStorage with the IXP project InvoicesIXP and returns it as JSON in the exercise's invoice shape.",
+  "MainFile": "Main.xaml"
+}

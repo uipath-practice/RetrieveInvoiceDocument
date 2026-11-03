@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ExtractInvoiceData.Core</name>
+    </assembly>
+    <members>
+        <member name="T:ExtractInvoiceData.ShapeInvoice">
+            <summary>
+            Reshapes an IXP extraction (project InvoicesIXP: Invoice Header, Vendor Information, Buyer Information, Line Items,
+            Invoice Totals) into the exercise's invoice object — the same shape the generator writes, so the deterministic compare
+            and the agent read one format. Extraction mistakes pass through untouched: that is the point of extracting at all.
+            </summary>
+        </member>
+        <member name="M:ExtractInvoiceData.ShapeInvoice.ParseNumber(System.String)">
+            <summary>"4,923.00 USD" → 4923.00; "19%" → 19; "1.234,50 EUR" → 1234.50. Null when nothing numeric is there.</summary>
+        </member>
+        <member name="M:ExtractInvoiceData.ShapeInvoice.IsoDate(System.String)">
+            <summary>IXP returns ISO timestamps ("2026-06-04T00:00:00Z") or printed dates; keep yyyy-MM-dd where it can be read.</summary>
+        </member>
+        <member name="M:ExtractInvoiceData.WorkflowRunnerService.Main(System.String,System.Boolean)">
+            <summary>
+            Invokes the Main.xaml
+            </summary>
+            <param name="isolated">Indicates whether to isolate executions (run them within a different process)</param>
+        </member>
+        <member name="M:ExtractInvoiceData.WorkflowRunnerService.ShapeInvoice(UiPath.IntelligentOCR.StudioWeb.Activities.DataExtraction.IDocumentData{UiPath.IntelligentOCR.StudioWeb.Activities.DataExtraction.DictionaryData},System.Boolean)">
+            <summary>
+            Invokes the ShapeInvoice.cs
+            </summary>
+            <param name="isolated">Indicates whether to isolate executions (run them within a different process)</param>
+        </member>
+    </members>
+</doc>
