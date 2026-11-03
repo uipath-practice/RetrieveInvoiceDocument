@@ -1,0 +1,4 @@
+{
+  "scope": "OR.Buckets.Read DataFabric.Schema.Read DataFabric.Data.Read OR.Tasks.Read OR.Users.Read",
+  "clientId": "eb8216e4-5d33-4dd1-866a-a265957256b3"
+}

@@ -1,0 +1,59 @@
+{
+  "inputs": {
+    "type": "object",
+    "properties": {
+      "InvoiceFileName": {
+        "type": "string",
+        "required": true,
+        "description": "The invoice PDF's name in storage bucket InvoicesStorage (folder Tools), e.g. INV-22150825.pdf — the generator's out_InvoiceFileName. The app shows the PDF on the left."
+      },
+      "InvoiceJSON": {
+        "type": "string",
+        "required": true,
+        "description": "The invoice as JSON text, exactly as Extract Invoice Data (IXP) returned it in out_InvoiceJSON: {invoiceNumber, poNumber, invoiceDate, dueDate, currency, vendor {name, address, country, taxId}, buyer {name, address, country, taxId}, lines [{n, description, quantity, unitPrice, lineTotal}], subtotal, taxName, taxRate, taxTotal, total}. The app renders it beside the PDF and anchors the highlighted findings on it."
+      },
+      "POID": {
+        "type": "string",
+        "required": true,
+        "description": "The purchase order number (PO-<8 digits>). The app loads the matching PurchaseOrders row (PODATA json and the POHTML page) from Data Fabric and shows it on the right."
+      },
+      "MatchResultJSON": {
+        "type": "string",
+        "required": true,
+        "description": "The match result as JSON text: {status: 'green'|'yellow'|'red', findings: [{area: 'vendor'|'buyer'|'tax'|'currency'|'line'|'total'|'po', field: the differing field name (name, taxId, taxRate, description, quantity, unitPrice, lineTotal, subtotal, total, …; empty for a whole missing or extra line), invoiceLine: integer or null (the invoice line n), poLine: integer or null (the matching purchase order line n), severity: 'yellow'|'red' (empty when the deterministic compare wrote the finding), invoiceValue: string, poValue: string, note: one sentence for the reviewer}], summary: two or three sentences for the reviewer, rejectionEmailHtml: the drafted supplier e-mail (HTML; empty for green)}. Every finding is highlighted on both sides in its severity colour."
+      }
+    }
+  },
+  "inOuts": {
+    "type": "object",
+    "properties": {
+      "RejectionEmailHtml": {
+        "type": "string",
+        "required": false,
+        "description": "The supplier e-mail drafted by the agent (HTML). Pre-filled from the match result when the process passes nothing; the reviewer edits it in the app and the edited text comes back. The process sends it only on Reject."
+      }
+    }
+  },
+  "outputs": {
+    "type": "object",
+    "properties": {
+      "ReviewerComment": {
+        "type": "string",
+        "required": false,
+        "description": "The reviewer's free-text comment (optional)."
+      },
+      "ReviewerEmail": {
+        "type": "string",
+        "required": false,
+        "description": "The e-mail address of the reviewer who completed the task, filled in by the app from the Action Center context. The process writes it into PaymentsQueue.ApprovedBy on the human path."
+      }
+    }
+  },
+  "outcomes": {
+    "type": "object",
+    "properties": {
+      "Approve": { "type": "string" },
+      "Reject": { "type": "string" }
+    }
+  }
+}

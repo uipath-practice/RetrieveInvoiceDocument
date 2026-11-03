@@ -1,0 +1,27 @@
+{
+  "status": "yellow",
+  "findings": [
+    {
+      "area": "line",
+      "field": "description",
+      "invoiceLine": 3,
+      "poLine": 3,
+      "severity": "yellow",
+      "invoiceValue": "Heavyweight printer paper large",
+      "poValue": "Printer Paper Large",
+      "note": "The invoice describes the same article in different words; quantity, unit price and line total match the purchase order."
+    },
+    {
+      "area": "vendor",
+      "field": "address",
+      "invoiceLine": null,
+      "poLine": null,
+      "severity": "yellow",
+      "invoiceValue": "Bd. Republicii 18, Timisoara 300030 Romania",
+      "poValue": "Bd. Republicii 18, Timisoara 300030",
+      "note": "The invoice address carries the country at the end; the street, number and city are the same."
+    }
+  ],
+  "summary": "The invoice matches the purchase order on every amount. Line 3 names the ordered printer paper differently and the vendor address includes the country, so the difference is presentation only.",
+  "rejectionEmailHtml": "<p>Dear Supplier,</p><p>We have received invoice INV-88757045 against purchase order PO-98476545 and found the following differences:</p><ul><li><b>Line 3 description</b>: \"Heavyweight printer paper large\" on the invoice, \"Printer Paper Large\" on the purchase order.</li><li><b>Vendor address</b>: the invoice adds the country to the address.</li></ul><p>Please confirm that these refer to the ordered articles so we can release the payment.</p><p>Kind regards,<br>Payments Team</p>"
+}

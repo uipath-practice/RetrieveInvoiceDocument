@@ -1,0 +1,64 @@
+{
+  "poNumber": "PO-98476545",
+  "poDate": "2026-10-18",
+  "currency": "RON",
+  "vendor": {
+    "name": "Banat IT Services SRL",
+    "address": "Bd. Republicii 18, Timisoara 300030",
+    "country": "Romania",
+    "taxId": "RO-55664433",
+    "contact": "Cristina Pavel",
+    "phone": "+40 727 855 959"
+  },
+  "buyer": {
+    "name": "Tasman Data Pty Ltd",
+    "address": "60 Northbourne Ave, Canberra ACT 2600",
+    "country": "Australia",
+    "taxId": "AU-77334455661",
+    "contact": "Olivia Martin",
+    "phone": "+61 2 6111 9123"
+  },
+  "lines": [
+    {
+      "n": 1,
+      "description": "Conference Table",
+      "quantity": 1,
+      "unitPrice": 5400,
+      "lineTotal": 5400,
+      "deliveryDate": "2026-11-03",
+      "material": "92004048"
+    },
+    {
+      "n": 2,
+      "description": "Ethernet Cable",
+      "quantity": 10,
+      "unitPrice": 8,
+      "lineTotal": 80,
+      "deliveryDate": "2026-11-13",
+      "material": "96206076"
+    },
+    {
+      "n": 3,
+      "description": "Printer Paper Large",
+      "quantity": 10,
+      "unitPrice": 4,
+      "lineTotal": 40,
+      "deliveryDate": "2026-11-02",
+      "material": "49616068"
+    },
+    {
+      "n": 4,
+      "description": "Computer Desk",
+      "quantity": 1,
+      "unitPrice": 150,
+      "lineTotal": 150,
+      "deliveryDate": "2026-11-05",
+      "material": "91775306"
+    }
+  ],
+  "subtotal": 5670,
+  "taxName": "VAT",
+  "taxRate": 19,
+  "taxTotal": 1077.3,
+  "total": 6747.3
+}
