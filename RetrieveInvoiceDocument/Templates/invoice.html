@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Invoice {{INVOICE_NUMBER}}</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Helvetica, Arial, sans-serif; font-size: 10pt; color: #222; background: #fff; }
+  table { border-collapse: collapse; width: 100%; }
+  .band { background: {{HEADER_COLOR}}; color: #fff; }
+  .band td { padding: 22px 28px; }
+  .band .name { font-size: 20pt; font-weight: bold; }
+  .band .no { font-size: 13pt; font-weight: bold; text-align: right; }
+  .parties td { width: 50%; padding: 26px 28px 6px 28px; vertical-align: top; line-height: 1.5; }
+  .parties .h { font-size: 12pt; font-weight: bold; margin-bottom: 4px; }
+  .meta td { width: 50%; padding: 14px 28px 20px 28px; vertical-align: top; line-height: 1.6; }
+  .meta .h { font-size: 11pt; font-weight: bold; }
+  .label { color: #555; }
+  .lines { margin: 0 28px; width: auto; }
+  .lines th { background: #333; color: #fff; text-align: left; padding: 8px 10px; font-size: 9pt; text-transform: uppercase; letter-spacing: 0.5px; }
+  .lines td { padding: 8px 10px; border-bottom: 1px solid #ddd; }
+  .lines th.n, .lines td.n { text-align: right; }
+  .lines td.d { width: 52%; }
+  .totals { margin: 16px 28px 0 auto; width: 300px; }
+  .totals td { padding: 6px 10px; }
+  .totals td.v { text-align: right; font-weight: bold; }
+  .totals tr.grand td { border-top: 2px solid #333; font-size: 12pt; padding-top: 10px; }
+  .notes { margin: 36px 28px 0 28px; color: #444; font-size: 9pt; line-height: 1.5; border-top: 1px solid #ddd; padding-top: 12px; }
+</style>
+</head>
+<body>
+<table class="band"><tr><td class="name">{{VENDOR_NAME}}</td><td class="no">Invoice #: {{INVOICE_NUMBER}}</td></tr></table>
+
+<table class="parties"><tr>
+  <td>
+    <div class="h">{{VENDOR_NAME}}</div>
+    <div>{{VENDOR_ADDRESS}}</div>
+    <div>{{VENDOR_COUNTRY}}</div>
+    <div><span class="label">Tax ID:</span> {{VENDOR_TAXID}}</div>
+    <div><span class="label">Contact:</span> {{VENDOR_CONTACT}}</div>
+    <div><span class="label">Phone:</span> {{VENDOR_PHONE}}</div>
+  </td>
+  <td>
+    <div class="h">Bill To:</div>
+    <div>{{BUYER_NAME}}</div>
+    <div>{{BUYER_ADDRESS}}</div>
+    <div>{{BUYER_COUNTRY}}</div>
+    <div><span class="label">Tax ID:</span> {{BUYER_TAXID}}</div>
+  </td>
+</tr></table>
+
+<table class="meta"><tr>
+  <td>
+    <div class="h">Invoice #: {{INVOICE_NUMBER}}</div>
+    <div><span class="label">Invoice Date:</span> {{INVOICE_DATE}}</div>
+    <div><span class="label">Due Date:</span> {{DUE_DATE}}</div>
+  </td>
+  <td>
+    <div class="h">Purchase Order #: {{PO_NUMBER}}</div>
+    <div><span class="label">Currency:</span> {{CURRENCY}}</div>
+  </td>
+</tr></table>
+
+<table class="lines">
+  <thead><tr><th>Description</th><th class="n">Quantity</th><th class="n">Unit Price ({{CURRENCY}})</th><th class="n">Total ({{CURRENCY}})</th></tr></thead>
+  <tbody>
+{{LINE_ROWS}}
+  </tbody>
+</table>
+
+<table class="totals">
+  <tr><td>Subtotal:</td><td class="v">{{SUBTOTAL}}</td></tr>
+  <tr><td>{{TAX_LABEL}}:</td><td class="v">{{TAX_TOTAL}}</td></tr>
+  <tr class="grand"><td>Total:</td><td class="v">{{TOTAL}}</td></tr>
+</table>
+
+<div class="notes">{{NOTES}}</div>
+</body>
+</html>

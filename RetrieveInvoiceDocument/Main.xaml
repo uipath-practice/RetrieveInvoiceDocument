@@ -1,0 +1,183 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" this:Main.in_Discrepancy="" this:Main.in_DiscrepancyProbability="20" this:Main.in_Seed="0" this:Main.in_LinesQuantity="4" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:r="clr-namespace:RetrieveInvoiceDocument;assembly=DataService.RetrieveInvoiceDocument" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ucas="clr-namespace:UiPath.Core.Activities.Storage;assembly=UiPath.System.Activities" xmlns:uda="clr-namespace:UiPath.DataService.Activities;assembly=UiPath.DataService.Activities.Core" xmlns:udam="clr-namespace:UiPath.DataService.Activities.Models;assembly=UiPath.DataService.Activities.Core" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:upr="clr-namespace:UiPath.Platform.ResourceHandling;assembly=UiPath.Platform" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="Optional. A discrepancy id to plant, or 'none' for a clean pair. Empty draws by in_DiscrepancyProbability. An unknown id fails the job." Name="in_Discrepancy" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="0-100: the chance an unpinned invoice carries one discrepancy from the exercise set. Default 20." Name="in_DiscrepancyProbability" Type="InArgument(x:Int32)" />
+    <x:Property sap2010:Annotation.AnnotationText="Non-zero reproduces the same invoice and purchase order; 0 draws a fresh seed, recorded in the answer key." Name="in_Seed" Type="InArgument(x:Int32)" />
+    <x:Property sap2010:Annotation.AnnotationText="Lines on the purchase order, 2-8. Default 4." Name="in_LinesQuantity" Type="InArgument(x:Int32)" />
+    <x:Property sap2010:Annotation.AnnotationText="The invoice PDF's name in storage bucket InvoicesStorage, e.g. INV-22150825.pdf" Name="out_InvoiceFileName" Type="OutArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="INV-&lt;8 digits&gt;" Name="out_InvoiceNumber" Type="OutArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="PO-&lt;8 digits&gt;: the key of the PurchaseOrders row this run wrote" Name="out_PONumber" Type="OutArgument(x:String)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>Main_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>UiPath.Core.Activities.Storage</x:String>
+      <x:String>UiPath.Platform</x:String>
+      <x:String>UiPath.Platform.ResourceHandling</x:String>
+      <x:String>UiPath.DataService.Activities</x:String>
+      <x:String>UiPath.DataService.Definition</x:String>
+      <x:String>RetrieveInvoiceDocument</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Threading.Tasks</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Core</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>netstandard</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.Text.Json</AssemblyReference>
+      <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.CodedWorkflows</AssemblyReference>
+      <AssemblyReference>UiPath.DataService.Activities.Core</AssemblyReference>
+      <AssemblyReference>UiPath.DataService.Definition</AssemblyReference>
+      <AssemblyReference>DataService.RetrieveInvoiceDocument</AssemblyReference>
+      <AssemblyReference>RetrieveInvoiceDocument.Core</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Main" sap:VirtualizedContainerService.HintSize="1200,1300" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="InvoiceFileName" />
+      <Variable x:TypeArguments="x:String" Name="InvoiceNumber" />
+      <Variable x:TypeArguments="x:String" Name="PONumber" />
+      <Variable x:TypeArguments="x:String" Name="ExpectedStatus" />
+      <Variable x:TypeArguments="x:String" Name="Discrepancy" />
+      <Variable x:TypeArguments="x:String" Name="InvoicePath" />
+      <Variable x:TypeArguments="x:String" Name="AnswerPath" />
+      <Variable x:TypeArguments="x:String" Name="PurchaseOrderJson" />
+      <Variable x:TypeArguments="x:String" Name="PurchaseOrderHtmlPath" />
+      <Variable x:TypeArguments="r:PurchaseOrders" Name="DF_Record" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log start" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Retrieving an invoice: discrepancy '&quot; + in_Discrepancy + &quot;', probability &quot; + in_DiscrepancyProbability.ToString() + &quot;%, seed &quot; + in_Seed.ToString() + &quot;, &quot; + in_LinesQuantity.ToString() + &quot; line(s)&quot;]" />
+    <ui:Delete ContinueOnError="True" Path="{x:Null}" DisplayName="Delete a previous Output folder" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Delete_1" ResourceFile="[LocalResource.FromPath(&quot;Output&quot;)]" />
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="GenerateInvoice - Invoke Workflow File (GenerateInvoice.cs)" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" Level="Info" LogEntry="OnlyInvocation" LogExit="OnlySuccessfulReturn" UnSafe="False" WorkflowFileName="GenerateInvoice.cs">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Discrepancy">[in_Discrepancy]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_DiscrepancyProbability">[in_DiscrepancyProbability]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_Seed">[in_Seed]</InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_LinesQuantity">[in_LinesQuantity]</InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_InvoiceFileName">[InvoiceFileName]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_InvoiceNumber">[InvoiceNumber]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_PONumber">[PONumber]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ExpectedStatus">[ExpectedStatus]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_Discrepancy">[Discrepancy]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_InvoicePath">[InvoicePath]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_AnswerPath">[AnswerPath]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_PurchaseOrderJson">[PurchaseOrderJson]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_PurchaseOrderHtmlPath">[PurchaseOrderHtmlPath]</OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ucas:UploadStorageFile Path="{x:Null}" TimeoutMS="{x:Null}" ContinueOnError="False" Destination="[InvoiceFileName]" DisplayName="Upload the invoice PDF to InvoicesStorage" FileResource="[LocalResource.FromPath(InvoicePath)]" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="UploadStorageFile_1" StorageBucketName="InvoicesStorage" />
+    <ucas:UploadStorageFile Path="{x:Null}" TimeoutMS="{x:Null}" ContinueOnError="True" Destination="[InvoiceNumber + &quot;-answer.json&quot;]" DisplayName="Upload the answer key to InvoicesStorage" FileResource="[LocalResource.FromPath(AnswerPath)]" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="UploadStorageFile_2" StorageBucketName="InvoicesStorage" />
+    <uda:CreateEntityRecord x:TypeArguments="r:PurchaseOrders" InputEntity="{x:Null}" VisibleDynamicPropertiesInfo="{x:Null}" ContinueOnError="False" DisplayName="Create the PurchaseOrders record" EntityId="f73d11f9-59d7-f111-bf5b-000d3a66d571" ExpansionDepth="2" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="CreateEntityRecord`1_1" InputEntityInFieldView="[new RetrieveInvoiceDocument.PurchaseOrders() With { .PODATA = PurchaseOrderJson, .POID = PONumber }]" IsInRecordView="False" OutputEntity="[DF_Record]" TimeoutInMs="30000">
+      <uda:CreateEntityRecord.State>
+        <udam:RecordState RequiredFieldCount="2">
+          <udam:RecordState.SelectedFields>
+            <scg:List x:TypeArguments="udam:DynamicEntityField" Capacity="2">
+              <udam:DynamicEntityField Id="023e11f9-59d7-f111-bf5b-000d3a66d571" IsRequired="True" Name="PODATA">
+                <udam:DynamicEntityField.ArgumentValue>
+                  <InArgument x:TypeArguments="x:String">[PurchaseOrderJson]</InArgument>
+                </udam:DynamicEntityField.ArgumentValue>
+              </udam:DynamicEntityField>
+              <udam:DynamicEntityField Id="013e11f9-59d7-f111-bf5b-000d3a66d571" IsRequired="True" Name="POID">
+                <udam:DynamicEntityField.ArgumentValue>
+                  <InArgument x:TypeArguments="x:String">[PONumber]</InArgument>
+                </udam:DynamicEntityField.ArgumentValue>
+              </udam:DynamicEntityField>
+            </scg:List>
+          </udam:RecordState.SelectedFields>
+        </udam:RecordState>
+      </uda:CreateEntityRecord.State>
+    </uda:CreateEntityRecord>
+    <uda:UploadFileToRecordField x:TypeArguments="r:PurchaseOrders" InputEntity="{x:Null}" OutputEntity="{x:Null}" ContinueOnError="False" DisplayName="Upload the SAP-style page to the POHTML file field" EntityId="f73d11f9-59d7-f111-bf5b-000d3a66d571" ExpansionDepth="2" Field="POHTML" FilePath="[PurchaseOrderHtmlPath]" FileResource="[LocalResource.FromPath(PurchaseOrderHtmlPath)]" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="UploadFileToRecordField`1_1" RecordId="[DF_Record.Id]" TimeoutInMs="30000" />
+    <Assign DisplayName="out_InvoiceFileName" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[out_InvoiceFileName]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[InvoiceFileName]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="out_InvoiceNumber" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[out_InvoiceNumber]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[InvoiceNumber]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="out_PONumber" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Assign_3">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[out_PONumber]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[PONumber]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:Delete ContinueOnError="True" Path="{x:Null}" DisplayName="Delete the Output folder" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="Delete_2" ResourceFile="[LocalResource.FromPath(&quot;Output&quot;)]" />
+    <ui:LogMessage DisplayName="Log result" sap:VirtualizedContainerService.HintSize="450,48" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Invoice &quot; + InvoiceFileName + &quot; uploaded to InvoicesStorage; purchase order &quot; + PONumber + &quot; written to PurchaseOrders (&quot; + If(String.IsNullOrEmpty(Discrepancy), &quot;clean&quot;, Discrepancy) + &quot;, expected &quot; + ExpectedStatus + &quot;)&quot;]" />
+  </Sequence>
+</Activity>

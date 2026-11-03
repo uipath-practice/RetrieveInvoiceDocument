@@ -1,0 +1,6 @@
+{
+  "Name": "RetrieveInvoiceDocument",
+  "ProjectType": "Process",
+  "Description": "Invoice Matching exercise: produces a supplier invoice PDF and the purchase order it references, with an optional planted discrepancy and an answer key.",
+  "MainFile": "Main.xaml"
+}

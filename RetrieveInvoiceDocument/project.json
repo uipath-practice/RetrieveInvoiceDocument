@@ -1,0 +1,217 @@
+{
+  "name": "RetrieveInvoiceDocument",
+  "projectId": "7c1e2a4f-5b8d-4e6a-9f3c-2d1b0a9e8f71",
+  "description": "Invoice Matching exercise: produces a supplier invoice PDF (storage bucket InvoicesStorage) and the purchase order it references (Data Fabric entity PurchaseOrders), with an optional planted discrepancy and an answer key. Provided by the course; participants never build it.",
+  "main": "Main.xaml",
+  "dependencies": {
+    "itext.bouncy-castle-adapter": "[9.7.0]",
+    "itext7": "[9.7.0]",
+    "itext7.pdfhtml": "[6.3.3]",
+    "UiPath.DataService.Activities": "[25.9.3]",
+    "UiPath.System.Activities": "[26.6.2]",
+    "UiPath.System.Activities.Runtime": "[26.6.2]"
+  },
+  "webServices": [],
+  "entitiesStores": [
+    {
+      "serviceDocument": ".entities/EntitiesStore.json",
+      "namespace": "RetrieveInvoiceDocument"
+    }
+  ],
+  "schemaVersion": "4.0",
+  "studioVersion": "26.0.186.0",
+  "projectVersion": "2.0.0",
+  "runtimeOptions": {
+    "autoDispose": false,
+    "netFrameworkLazyLoading": false,
+    "isPausable": true,
+    "isAttended": false,
+    "requiresUserInteraction": false,
+    "supportsPersistence": false,
+    "workflowSerialization": "NewtonsoftJson",
+    "excludedLoggedData": [
+      "Private:*",
+      "*password*"
+    ],
+    "executionType": "Workflow",
+    "readyForPiP": false,
+    "startsInPiP": false,
+    "mustRestoreAllDependencies": true,
+    "pipType": "ChildSession",
+    "robotVersion": "26.0.190"
+  },
+  "designOptions": {
+    "projectProfile": "Developement",
+    "outputType": "Process",
+    "libraryOptions": {
+      "privateWorkflows": []
+    },
+    "processOptions": {
+      "ignoredFiles": []
+    },
+    "fileInfoCollection": [],
+    "saveToCloud": false
+  },
+  "expressionLanguage": "VisualBasic",
+  "entryPoints": [
+    {
+      "filePath": "Main.xaml",
+      "uniqueId": "a3f1c6d2-7e9b-4c5a-8d2f-6b4e1a0c9d38",
+      "input": [
+        {
+          "name": "in_Discrepancy",
+          "displayName": "in_Discrepancy",
+          "tooltip": "Optional. A discrepancy id to plant (VENDOR_MISMATCH, TAX_RATE_MISMATCH, EXTRA_LINE_PACKAGING, EXTRA_LINE_UNORDERED, DESCRIPTION_SYNONYM, DESCRIPTION_DIFFERENT_ITEM, and the test-only FORMATTING_ONLY, SPLIT_LINES_VALID, SPLIT_LINES_INVALID, PRICE_WITHIN_TOLERANCE, QUANTITY_OVERBILLED, PARTIAL_DELIVERY, PO_NUMBER_UNKNOWN, CURRENCY_MISMATCH) or 'none' for a clean pair. Empty draws by probability; an unknown id fails the job.",
+          "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+          "required": false,
+          "hasDefault": true,
+          "isExpression": false,
+          "defaultValue": ""
+        },
+        {
+          "name": "in_DiscrepancyProbability",
+          "displayName": "in_DiscrepancyProbability",
+          "tooltip": "0-100: the chance that an unpinned invoice carries one discrepancy from the exercise set. Default 20.",
+          "type": "System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+          "required": false,
+          "hasDefault": true,
+          "isExpression": false,
+          "defaultValue": "20"
+        },
+        {
+          "name": "in_Seed",
+          "displayName": "in_Seed",
+          "tooltip": "Non-zero reproduces the same invoice and purchase order; 0 draws a fresh seed, recorded in the answer key.",
+          "type": "System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+          "required": false,
+          "hasDefault": true,
+          "isExpression": false,
+          "defaultValue": "0"
+        },
+        {
+          "name": "in_LinesQuantity",
+          "displayName": "in_LinesQuantity",
+          "tooltip": "Lines on the purchase order, 2-8. Default 4.",
+          "type": "System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+          "required": false,
+          "hasDefault": true,
+          "isExpression": false,
+          "defaultValue": "4"
+        }
+      ],
+      "output": [
+        {
+          "name": "out_InvoiceFileName",
+          "displayName": "out_InvoiceFileName",
+          "tooltip": "The invoice PDF's name in storage bucket InvoicesStorage, e.g. INV-22150825.pdf",
+          "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
+        },
+        {
+          "name": "out_InvoiceNumber",
+          "displayName": "out_InvoiceNumber",
+          "tooltip": "INV-<8 digits>",
+          "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
+        },
+        {
+          "name": "out_PONumber",
+          "displayName": "out_PONumber",
+          "tooltip": "PO-<8 digits>: the key of the PurchaseOrders row the generator wrote",
+          "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
+        }
+      ]
+    },
+    {
+      "filePath": "GenerateInvoice.cs",
+      "uniqueId": "b8d4e2f1-3a6c-4d7e-9b1f-0c5a8e2d7f46",
+      "input": [
+        {
+          "name": "in_Discrepancy",
+          "displayName": "in_Discrepancy",
+          "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+          "required": false,
+          "hasDefault": true,
+          "isExpression": false,
+          "defaultValue": ""
+        },
+        {
+          "name": "in_DiscrepancyProbability",
+          "displayName": "in_DiscrepancyProbability",
+          "type": "System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+          "required": false,
+          "hasDefault": true,
+          "isExpression": false,
+          "defaultValue": "20"
+        },
+        {
+          "name": "in_Seed",
+          "displayName": "in_Seed",
+          "type": "System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+          "required": false,
+          "hasDefault": true,
+          "isExpression": false,
+          "defaultValue": "0"
+        },
+        {
+          "name": "in_LinesQuantity",
+          "displayName": "in_LinesQuantity",
+          "type": "System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e",
+          "required": false,
+          "hasDefault": true,
+          "isExpression": false,
+          "defaultValue": "4"
+        }
+      ],
+      "output": [
+        {
+          "name": "out_InvoiceFileName",
+          "displayName": "out_InvoiceFileName",
+          "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
+        },
+        {
+          "name": "out_InvoiceNumber",
+          "displayName": "out_InvoiceNumber",
+          "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
+        },
+        {
+          "name": "out_PONumber",
+          "displayName": "out_PONumber",
+          "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
+        },
+        {
+          "name": "out_ExpectedStatus",
+          "displayName": "out_ExpectedStatus",
+          "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
+        },
+        {
+          "name": "out_Discrepancy",
+          "displayName": "out_Discrepancy",
+          "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
+        },
+        {
+          "name": "out_InvoicePath",
+          "displayName": "out_InvoicePath",
+          "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
+        },
+        {
+          "name": "out_AnswerPath",
+          "displayName": "out_AnswerPath",
+          "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
+        },
+        {
+          "name": "out_PurchaseOrderJson",
+          "displayName": "out_PurchaseOrderJson",
+          "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
+        },
+        {
+          "name": "out_PurchaseOrderHtmlPath",
+          "displayName": "out_PurchaseOrderHtmlPath",
+          "type": "System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e"
+        }
+      ]
+    }
+  ],
+  "isTemplate": false,
+  "templateProjectData": {},
+  "publishData": {},
+  "targetFramework": "Portable"
+}

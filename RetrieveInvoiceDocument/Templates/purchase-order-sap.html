@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Display Standard PO {{PO_NUMBER}}</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Tahoma, Verdana, Arial, sans-serif; font-size: 11px; color: #222; background: #e9edf1; }
+  .shell { max-width: 1100px; margin: 0 auto; background: #f4f6f8; border: 1px solid #a9b6c4; }
+  .titlebar { background: #d9e3ee; border-bottom: 1px solid #a9b6c4; padding: 6px 10px; font-size: 13px; font-weight: bold; color: #1c3f6e; }
+  .toolbar { background: #eef2f6; border-bottom: 1px solid #c3ccd6; padding: 4px 10px; color: #5a6b7d; }
+  .toolbar span { display: inline-block; border: 1px solid #b7c2ce; background: #f9fafb; padding: 1px 7px; margin-right: 4px; color: #5a6b7d; }
+  .doc { padding: 8px 10px; }
+  .doc .head { font-size: 12px; font-weight: bold; color: #1c3f6e; margin: 4px 0 8px; }
+  table { border-collapse: collapse; }
+  .form { width: 100%; margin-bottom: 8px; }
+  .form td { vertical-align: top; padding: 0 12px 0 0; }
+  .fields td { padding: 2px 4px; }
+  .fields td.l { color: #4a5a6a; width: 120px; }
+  .fields td.v { background: #fff; border: 1px solid #b7c2ce; min-width: 160px; padding: 2px 6px; color: #000; }
+  .tab { display: inline-block; border: 1px solid #a9b6c4; border-bottom: none; background: #f9fafb; padding: 3px 10px; margin-right: 2px; color: #4a5a6a; }
+  .tab.on { background: #fff; color: #1c3f6e; font-weight: bold; }
+  .grid { width: 100%; background: #fff; border: 1px solid #a9b6c4; }
+  .grid th { background: #dfe8f2; border: 1px solid #c3ccd6; padding: 3px 5px; text-align: left; font-weight: normal; color: #1c3f6e; white-space: nowrap; }
+  .grid td { border: 1px solid #dde4ec; padding: 3px 5px; white-space: nowrap; }
+  .grid td.n { text-align: right; }
+  .grid td.t { white-space: normal; min-width: 220px; }
+  .grid tr:nth-child(even) td { background: #f7f9fb; }
+  .sum { margin-top: 8px; }
+  .sum td { padding: 2px 6px; }
+  .sum td.l { color: #4a5a6a; }
+  .sum td.v { text-align: right; background: #fff; border: 1px solid #b7c2ce; min-width: 120px; }
+  .status { background: #eef2f6; border-top: 1px solid #c3ccd6; padding: 4px 10px; color: #5a6b7d; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="titlebar">Display Standard PO {{PO_NUMBER}} : Created by PURCH01</div>
+  <div class="toolbar"><span>Document Overview On</span><span>Print Preview</span><span>Messages</span><span>Personal Setting</span></div>
+  <div class="doc">
+    <div class="head">Standard PO &nbsp; {{PO_NUMBER}} &nbsp;&nbsp; Vendor &nbsp; {{VENDOR_NUMBER}} &nbsp; {{VENDOR_NAME}} &nbsp;&nbsp; Doc. date &nbsp; {{PO_DATE}}</div>
+
+    <div><span class="tab">Delivery/Invoice</span><span class="tab">Conditions</span><span class="tab">Texts</span><span class="tab on">Address</span><span class="tab">Communication</span><span class="tab">Partners</span><span class="tab">Additional Data</span><span class="tab on">Org. Data</span><span class="tab">Status</span></div>
+    <table class="form"><tr>
+      <td>
+        <table class="fields">
+          <tr><td class="l">Vendor</td><td class="v">{{VENDOR_NUMBER}}</td></tr>
+          <tr><td class="l">Name</td><td class="v">{{VENDOR_NAME}}</td></tr>
+          <tr><td class="l">Street / House no.</td><td class="v">{{VENDOR_ADDRESS}}</td></tr>
+          <tr><td class="l">Country</td><td class="v">{{VENDOR_COUNTRY}}</td></tr>
+          <tr><td class="l">Tax Number 1</td><td class="v">{{VENDOR_TAXID}}</td></tr>
+          <tr><td class="l">Contact person</td><td class="v">{{VENDOR_CONTACT}}</td></tr>
+          <tr><td class="l">Telephone</td><td class="v">{{VENDOR_PHONE}}</td></tr>
+        </table>
+      </td>
+      <td>
+        <table class="fields">
+          <tr><td class="l">Purch. Org.</td><td class="v">1000 &nbsp; Central Purchasing</td></tr>
+          <tr><td class="l">Purch. Group</td><td class="v">001 &nbsp; Office &amp; IT</td></tr>
+          <tr><td class="l">Company Code</td><td class="v">1000 &nbsp; {{BUYER_NAME}}</td></tr>
+          <tr><td class="l">Company Address</td><td class="v">{{BUYER_ADDRESS}}, {{BUYER_COUNTRY}}</td></tr>
+          <tr><td class="l">Company Tax No.</td><td class="v">{{BUYER_TAXID}}</td></tr>
+          <tr><td class="l">Currency</td><td class="v">{{CURRENCY}}</td></tr>
+          <tr><td class="l">Payment terms</td><td class="v">Z030 &nbsp; 30 days net</td></tr>
+        </table>
+      </td>
+    </tr></table>
+
+    <div class="head">Item Overview</div>
+    <table class="grid">
+      <thead><tr><th>Itm</th><th>Material</th><th>Short Text</th><th>PO Quantity</th><th>OUn</th><th>C</th><th>Deliv. Date</th><th>Net Price</th><th>Curr.</th><th>Per</th><th>OPU</th><th>Net Value</th></tr></thead>
+      <tbody>
+{{ITEM_ROWS}}
+      </tbody>
+    </table>
+
+    <table class="sum">
+      <tr><td class="l">Items</td><td class="v">{{ITEM_COUNT}}</td><td class="l">Net value</td><td class="v">{{NET_VALUE}} {{CURRENCY}}</td></tr>
+      <tr><td class="l">Tax</td><td class="v">{{TAX_LABEL}}</td><td class="l">Tax amount</td><td class="v">{{TAX_VALUE}} {{CURRENCY}}</td></tr>
+      <tr><td class="l"></td><td class="v"></td><td class="l">Gross value</td><td class="v">{{GROSS_VALUE}} {{CURRENCY}}</td></tr>
+    </table>
+  </div>
+  <div class="status">Standard PO {{PO_NUMBER}} displayed &nbsp;·&nbsp; ME23N &nbsp;·&nbsp; {{TODAY}}</div>
+</div>
+</body>
+</html>

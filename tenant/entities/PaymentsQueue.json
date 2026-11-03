@@ -1,0 +1,14 @@
+{
+  "displayName": "Payments Queue",
+  "description": "Invoice Matching exercise: approved invoices waiting for payment. Participants' processes write one row per approved invoice; CreatedBy names the participant, which is how progress is tracked.",
+  "fields": [
+    {"Name": "InvoiceNumber", "DisplayName": "InvoiceNumber", "Description": "INV-<8 digits>", "FieldDataType": {"Name": "STRING", "LengthLimit": 50}, "IsRequired": false, "IsUnique": false},
+    {"Name": "PONumber", "DisplayName": "PONumber", "Description": "PO-<8 digits>", "FieldDataType": {"Name": "STRING", "LengthLimit": 50}, "IsRequired": false, "IsUnique": false},
+    {"Name": "Vendor", "DisplayName": "Vendor", "Description": "Vendor name as invoiced", "FieldDataType": {"Name": "STRING", "LengthLimit": 200}, "IsRequired": false, "IsUnique": false},
+    {"Name": "Currency", "DisplayName": "Currency", "Description": "ISO currency code", "FieldDataType": {"Name": "STRING", "LengthLimit": 10}, "IsRequired": false, "IsUnique": false},
+    {"Name": "Total", "DisplayName": "Total", "Description": "Invoice total, tax included", "FieldDataType": {"Name": "DECIMAL", "DecimalPrecision": 2}, "IsRequired": false, "IsUnique": false},
+    {"Name": "MatchStatus", "DisplayName": "MatchStatus", "Description": "green or yellow: what the matching said when the invoice was approved", "FieldDataType": {"Name": "STRING", "LengthLimit": 20}, "IsRequired": false, "IsUnique": false},
+    {"Name": "ApprovedBy", "DisplayName": "ApprovedBy", "Description": "'automatic' or the reviewer's e-mail", "FieldDataType": {"Name": "STRING", "LengthLimit": 200}, "IsRequired": false, "IsUnique": false},
+    {"Name": "InvoiceData", "DisplayName": "InvoiceData", "Description": "The invoice as JSON text (contract shape)", "FieldDataType": {"Name": "MULTILINE_TEXT", "LengthLimit": 10000}, "IsRequired": false, "IsUnique": false}
+  ]
+}

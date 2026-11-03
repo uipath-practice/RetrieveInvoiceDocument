@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <LangVersion>12</LangVersion>
+    <AssemblyName>smoke</AssemblyName>
+    <RootNamespace>Smoke</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="itext7" Version="9.7.0" />
+    <PackageReference Include="itext7.pdfhtml" Version="6.3.3" />
+    <PackageReference Include="itext.bouncy-castle-adapter" Version="9.7.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="../RetrieveInvoiceDocument/Core/**/*.cs" />
+    <Compile Include="../RetrieveInvoiceDocument/Data/**/*.cs" />
+    <Compile Include="../RetrieveInvoiceDocument/Discrepancies/**/*.cs" />
+    <Compile Include="../RetrieveInvoiceDocument/Factory/**/*.cs" />
+    <Compile Include="../RetrieveInvoiceDocument/Models/**/*.cs" />
+    <Compile Include="../RetrieveInvoiceDocument/Render/**/*.cs" />
+  </ItemGroup>
+</Project>

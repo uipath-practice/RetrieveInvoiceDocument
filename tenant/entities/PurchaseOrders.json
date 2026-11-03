@@ -1,0 +1,9 @@
+{
+  "displayName": "Purchase Orders",
+  "description": "Invoice Matching exercise: one row per purchase order the generator issued. POID is the key the invoice references; PODATA is the order as JSON (the shape the agent compares); POHTML is the order as the buyer's SAP screen shows it (the validation app renders it).",
+  "fields": [
+    {"Name": "POID", "DisplayName": "POID", "Description": "Purchase order number, PO-<8 digits>", "FieldDataType": {"Name": "STRING", "LengthLimit": 200}, "IsRequired": true, "IsUnique": true},
+    {"Name": "PODATA", "DisplayName": "PODATA", "Description": "The purchase order as JSON text (contract shape)", "FieldDataType": {"Name": "MULTILINE_TEXT", "LengthLimit": 10000}, "IsRequired": false, "IsUnique": false},
+    {"Name": "POHTML", "DisplayName": "POHTML", "Description": "The purchase order rendered as an SAP ME23N-style HTML page", "FieldDataType": {"Name": "FILE"}, "IsRequired": false, "IsUnique": false, "IsAttachment": true}
+  ]
+}

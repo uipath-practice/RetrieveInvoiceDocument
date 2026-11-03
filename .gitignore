@@ -1,9 +1,12 @@
-
-################################################################################
-# Added by UiPath Studio
-# Prevent caching and local artifacts from being committed
-################################################################################
-.local
-################################################################################
-# End of UiPath Studio common ignores
-################################################################################
+# generator output and build artefacts
+RetrieveInvoiceDocument/Output/
+RetrieveInvoiceDocument/.local/
+RetrieveInvoiceDocument/.settings/
+RetrieveInvoiceDocument/.screenshots/
+RetrieveInvoiceDocument/.tmh/
+RetrieveInvoiceDocument/.entities/*.zip
+smoke/bin/
+smoke/obj/
+dist/
+*.nupkg
+.DS_Store
