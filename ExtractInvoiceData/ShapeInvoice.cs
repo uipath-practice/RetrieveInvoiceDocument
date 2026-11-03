@@ -23,39 +23,70 @@ namespace ExtractInvoiceData
         {
             var d = in_Data.Data;
 
-            string Text(string field) { try { return (d.GetFieldValue(field)?.Value ?? "").Trim(); } catch (Exception) { return ""; } }
-            decimal? Num(string field) => ParseNumber(Text(field));
-
-            var lines = new List<object>();
+            // IXP label groups arrive as fields whose values carry Components (the group's fields); a repeating group such
+            // as Line Items arrives as one field with one value per row. Flatten both into a name → value map and a row list.
+            var fields = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var lineRows = new List<Dictionary<string, string>>();
+            var shapeLogged = false;
             try
             {
-                var table = d.GetTable("Line Items");
-                var tv = table?.GetValue();
-                if (tv != null)
+                var all = d.GetFields();
+                if (all != null) foreach (var f in all)
                 {
-                    int Col(string name) => Array.FindIndex(tv.ColumnInfo, c => string.Equals(c.FieldName, name, StringComparison.OrdinalIgnoreCase) || string.Equals(c.FieldId, name, StringComparison.OrdinalIgnoreCase));
-                    int cDesc = Col("Description"), cQty = Col("Quantity"), cPrice = Col("Unit Price"), cTotal = Col("Line Total");
-                    var n = 0;
-                    foreach (var row in tv.GetRows())
+                    var isLines = Matches(f.FieldName, "Line Items") || Matches(f.FieldId, "Line Items");
+                    var values = f.Values;
+                    if (values == null || values.Length == 0) continue;
+                    foreach (var v in values)
                     {
-                        var cells = row.ToArray();
-                        if (cells.Length == 0 || cells[0].IsHeader) continue;
-                        string Cell(int i) => i < 0 || i >= cells.Length ? "" : (cells[i].GetValue()?.Value ?? "").Trim();
-                        var desc = Cell(cDesc);
-                        if (desc.Length == 0 && Cell(cTotal).Length == 0) continue;
-                        n++;
-                        lines.Add(new
+                        if (!shapeLogged) { shapeLogged = true; Log($"ResultsValue members: {string.Join(", ", v.GetType().GetProperties().Select(x => x.Name))}"); }
+                        var comps = v.Components;
+                        if (comps == null || comps.Length == 0)
                         {
-                            n,
-                            description = desc,
-                            quantity = ParseNumber(Cell(cQty)) ?? 0m,
-                            unitPrice = ParseNumber(Cell(cPrice)) ?? 0m,
-                            lineTotal = ParseNumber(Cell(cTotal)) ?? 0m
-                        });
+                            foreach (var key in Keys(f.FieldName, f.FieldId)) if (!fields.ContainsKey(key)) fields[key] = (v.Value ?? "").Trim();
+                            continue;
+                        }
+                        var row = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                        foreach (var c in comps)
+                        {
+                            var cv = (c.Values != null && c.Values.Length > 0 ? c.Values[0]?.Value : null) ?? "";
+                            foreach (var key in Keys(c.FieldName, c.FieldId))
+                            {
+                                if (!row.ContainsKey(key)) row[key] = cv.Trim();
+                                if (!isLines && !fields.ContainsKey(key)) fields[key] = cv.Trim();
+                            }
+                        }
+                        if (isLines) lineRows.Add(row);
                     }
                 }
             }
-            catch (Exception ex) { Log($"Line Items table not read: {ex.Message}", LogLevel.Warn); }
+            catch (Exception ex) { Log($"Reading the extraction failed: {ex.Message}", LogLevel.Warn); }
+            Log($"IXP fields ({fields.Count}): {string.Join(" | ", fields.Where(k => !k.Key.Contains('.')).Select(k => k.Key + "=" + (k.Value.Length > 40 ? k.Value.Substring(0, 40) + "…" : k.Value)))}; line rows {lineRows.Count}");
+
+            string Text(string field)
+            {
+                if (fields.TryGetValue(field, out var v)) return v;
+                var squeezed = field.Replace(" ", "");
+                foreach (var k in fields) if (k.Key.Replace(" ", "").EndsWith(squeezed, StringComparison.OrdinalIgnoreCase)) return k.Value;
+                return "";
+            }
+            decimal? Num(string field) => ParseNumber(Text(field));
+            string Cell(Dictionary<string, string> row, string name)
+            {
+                if (row.TryGetValue(name, out var v)) return v;
+                var squeezed = name.Replace(" ", "");
+                foreach (var k in row) if (k.Key.Replace(" ", "").EndsWith(squeezed, StringComparison.OrdinalIgnoreCase)) return k.Value;
+                return "";
+            }
+
+            var lines = new List<object>();
+            var n = 0;
+            foreach (var row in lineRows)
+            {
+                var desc = Cell(row, "Description");
+                if (desc.Length == 0 && Cell(row, "Line Total").Length == 0) continue;
+                n++;
+                lines.Add(new { n, description = desc, quantity = ParseNumber(Cell(row, "Quantity")) ?? 0m, unitPrice = ParseNumber(Cell(row, "Unit Price")) ?? 0m, lineTotal = ParseNumber(Cell(row, "Line Total")) ?? 0m });
+            }
 
             var currency = Text("Currency");
             if (currency.Length == 0) currency = CurrencyOf(Text("Total Amount")) ?? CurrencyOf(Text("Subtotal")) ?? "";
@@ -82,6 +113,20 @@ namespace ExtractInvoiceData
             var json = JsonSerializer.Serialize(invoice, Json);
             Log($"Extracted {invoice.invoiceNumber} for {invoice.poNumber}: {lines.Count} line(s), total {invoice.total} {currency}");
             return (json, invoice.poNumber, invoice.invoiceNumber);
+        }
+
+        /// <summary>Every name a field can be found under: the display name, the id, and the id's last segment (after '.', '>' or '/').</summary>
+        internal static IEnumerable<string> Keys(string name, string id)
+        {
+            if (!string.IsNullOrWhiteSpace(name)) { yield return name.Trim(); var i = name.LastIndexOfAny(new[] { '>', '.', '/' }); if (i >= 0) yield return name.Substring(i + 1).Trim(); }
+            if (!string.IsNullOrWhiteSpace(id)) { yield return id.Trim(); var i = id.LastIndexOfAny(new[] { '>', '.', '/' }); if (i >= 0) yield return id.Substring(i + 1).Trim(); }
+        }
+
+        internal static bool Matches(string candidate, string wanted)
+        {
+            if (string.IsNullOrWhiteSpace(candidate)) return false;
+            var c = candidate.Replace(" ", "").Replace("-", "").Replace("_", ""); var w = wanted.Replace(" ", "");
+            return c.Equals(w, StringComparison.OrdinalIgnoreCase) || c.EndsWith("." + w, StringComparison.OrdinalIgnoreCase) || c.EndsWith(">" + w, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>"4,923.00 USD" → 4923.00; "19%" → 19; "1.234,50 EUR" → 1234.50. Null when nothing numeric is there.</summary>

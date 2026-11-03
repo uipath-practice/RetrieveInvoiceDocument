@@ -11,6 +11,9 @@
             and the agent read one format. Extraction mistakes pass through untouched: that is the point of extracting at all.
             </summary>
         </member>
+        <member name="M:ExtractInvoiceData.ShapeInvoice.Keys(System.String,System.String)">
+            <summary>Every name a field can be found under: the display name, the id, and the id's last segment (after '.', '>' or '/').</summary>
+        </member>
         <member name="M:ExtractInvoiceData.ShapeInvoice.ParseNumber(System.String)">
             <summary>"4,923.00 USD" → 4923.00; "19%" → 19; "1.234,50 EUR" → 1234.50. Null when nothing numeric is there.</summary>
         </member>
