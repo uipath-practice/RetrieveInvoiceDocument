@@ -6,7 +6,7 @@
     <x:Property sap2010:Annotation.AnnotationText="Lines on the purchase order, 2-8. Default 4." Name="in_LinesQuantity" Type="InArgument(x:Int32)" />
     <x:Property sap2010:Annotation.AnnotationText="The invoice PDF's name in storage bucket InvoicesStorage, e.g. INV-22150825.pdf" Name="out_InvoiceFileName" Type="OutArgument(x:String)" />
     <x:Property sap2010:Annotation.AnnotationText="INV-&lt;8 digits&gt;" Name="out_InvoiceNumber" Type="OutArgument(x:String)" />
-    <x:Property sap2010:Annotation.AnnotationText="PO-&lt;8 digits&gt;: the key of the PurchaseOrders row this run wrote" Name="out_PONumber" Type="OutArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="PO-&lt;8 digits&gt;: the purchase order number this invoice is for" Name="out_PONumber" Type="OutArgument(x:String)" />
   </x:Members>
   <VisualBasic.Settings>
     <x:Null />
