@@ -8,9 +8,9 @@ namespace RetrieveInvoiceDocument
     public class GenerateInvoice : CodedWorkflow
     {
         /// <param name="in_Discrepancy">
-        /// Optional. Pins one discrepancy by id (VENDOR_MISMATCH, TAX_RATE_MISMATCH, EXTRA_LINE_PACKAGING, EXTRA_LINE_UNORDERED,
-        /// DESCRIPTION_SYNONYM, DESCRIPTION_DIFFERENT_ITEM, FORMATTING_ONLY, SPLIT_LINES_VALID, SPLIT_LINES_INVALID, PRICE_WITHIN_TOLERANCE,
-        /// QUANTITY_OVERBILLED, PARTIAL_DELIVERY, PO_NUMBER_UNKNOWN, CURRENCY_MISMATCH) or "none" for a clean pair. Empty draws by probability;
+        /// A discrepancy id to plant: VENDOR_MISMATCH, TAX_RATE_MISMATCH, EXTRA_LINE_PACKAGING, EXTRA_LINE_UNORDERED, DESCRIPTION_SYNONYM,
+        /// DESCRIPTION_DIFFERENT_ITEM (the six the probability draw uses), FORMATTING_ONLY (green) or PO_NUMBER_UNKNOWN (red; never drawn);
+        /// other catalogue ids exist for the course's tests only. "none" = a clean pair. Empty draws by probability;
         /// an unknown id fails the job rather than falling back to random.
         /// </param>
         /// <param name="in_DiscrepancyProbability">0–100: the chance an unpinned invoice carries one discrepancy from the exercise set. Default 20.</param>
