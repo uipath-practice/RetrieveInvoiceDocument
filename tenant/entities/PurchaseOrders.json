@@ -1,9 +1,14 @@
 {
   "displayName": "Purchase Orders",
-  "description": "Invoice Matching exercise: one row per purchase order the generator issued. POID is the key the invoice references; PODATA is the order as JSON (the shape the agent compares); POHTML is the order as the buyer's SAP screen shows it (the validation app renders it).",
+  "description": "Invoice Matching exercise: the buyer's purchase orders, as SAP would hold them. One row per order the course generator issued. Look an order up by POID = the PO number on the invoice. Participants' processes read it; the generator writes it.",
   "fields": [
-    {"Name": "POID", "DisplayName": "POID", "Description": "Purchase order number, PO-<8 digits>", "FieldDataType": {"Name": "STRING", "LengthLimit": 200}, "IsRequired": true, "IsUnique": true},
-    {"Name": "PODATA", "DisplayName": "PODATA", "Description": "The purchase order as JSON text (contract shape)", "FieldDataType": {"Name": "MULTILINE_TEXT", "LengthLimit": 10000}, "IsRequired": false, "IsUnique": false},
-    {"Name": "POHTML", "DisplayName": "POHTML", "Description": "The purchase order rendered as an SAP ME23N-style HTML page", "FieldDataType": {"Name": "FILE"}, "IsRequired": false, "IsUnique": false, "IsAttachment": true}
+    {"Name": "POID", "DisplayName": "POID", "Description": "The purchase order number, PO-<8 digits>, unique: the key to look up by (the invoice's poNumber, the extraction's out_PONumber). Query results spell the field Poid.", "FieldDataType": {"Name": "STRING",
+        "LengthLimit": 200
+      }, "IsRequired": true, "IsUnique": true},
+    {"Name": "PODATA", "DisplayName": "PODATA", "Description": "The purchase order as JSON text: {poNumber, poDate, currency, vendor {name, address, country, taxId, contact, phone}, buyer {same}, lines [{n, description, quantity, unitPrice, lineTotal, deliveryDate, material}], subtotal, taxName, taxRate, taxTotal, total}: the invoice shape plus poDate, contacts, per-line delivery date and material.", "FieldDataType": {"Name": "MULTILINE_TEXT",
+        "LengthLimit": 10000
+      }, "IsRequired": false, "IsUnique": false},
+    {"Name": "POHTML", "DisplayName": "POHTML", "Description": "The order rendered as the buyer's SAP display screen (HTML file). The Invoice Validation app shows it to the reviewer; not for parsing, use PODATA.", "FieldDataType": {"Name": "FILE"
+      }, "IsRequired": false, "IsUnique": false, "IsAttachment": true}
   ]
 }

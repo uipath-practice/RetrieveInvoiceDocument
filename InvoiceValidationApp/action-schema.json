@@ -15,12 +15,12 @@
       "POID": {
         "type": "string",
         "required": true,
-        "description": "The purchase order number (PO-<8 digits>). The app loads the matching PurchaseOrders row (PODATA json and the POHTML page) from Data Fabric and shows it on the right."
+        "description": "The purchase order number the invoice refers to (PO-<8 digits>; the extraction's out_PONumber, used as the PurchaseOrders POID). The app loads that row (PODATA, POHTML) from Data Fabric and shows it on the right. Action Center stores this key as Poid in the task data; the app reads either spelling."
       },
       "MatchResultJSON": {
         "type": "string",
         "required": true,
-        "description": "The match result as JSON text: {status: 'green'|'yellow'|'red', findings: [{area: 'vendor'|'buyer'|'tax'|'currency'|'line'|'total'|'po', field: the differing field name (name, taxId, taxRate, description, quantity, unitPrice, lineTotal, subtotal, total, …; empty for a whole missing or extra line), invoiceLine: integer (the invoice line n) — 0, null or omitted when not about a line, poLine: integer — 0, null or omitted (the matching purchase order line n), severity: 'yellow'|'red' (empty when the deterministic compare wrote the finding), invoiceValue: string, poValue: string, note: one sentence for the reviewer}], summary: two or three sentences for the reviewer, rejectionEmailHtml: the drafted supplier e-mail (HTML; empty for green)}. Every finding is highlighted on both sides in its severity colour."
+        "description": "The match result as JSON text. Shape: {status: 'green'|'yellow'|'red', findings: [{area, field, invoiceLine, poLine, severity, invoiceValue, poValue, note}], summary, rejectionEmailHtml}. area: vendor|buyer|tax|currency|line|total|po. field: the differing field (name, taxId, taxRate, description, quantity, unitPrice, lineTotal, subtotal, total, ...; empty for a whole missing or extra line). invoiceLine / poLine: the invoice line n / the matching purchase order line n, as integers; 0, null or omitted when not about a line. severity: 'yellow'|'red' (empty when the deterministic compare wrote the finding). invoiceValue / poValue: the values as each document shows them. note: one sentence for the reviewer. summary: two or three sentences for the reviewer. rejectionEmailHtml: the drafted supplier e-mail as HTML, empty for green. Every finding is highlighted on both sides in its severity colour."
       }
     }
   },
@@ -52,8 +52,12 @@
   "outcomes": {
     "type": "object",
     "properties": {
-      "Approve": { "type": "string" },
-      "Reject": { "type": "string" }
+      "Approve": {
+        "type": "string"
+      },
+      "Reject": {
+        "type": "string"
+      }
     }
   }
 }

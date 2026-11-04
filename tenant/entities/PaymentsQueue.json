@@ -1,14 +1,30 @@
 {
   "displayName": "Payments Queue",
-  "description": "Invoice Matching exercise: approved invoices waiting for payment. Participants' processes write one row per approved invoice; CreatedBy names the participant, which is how progress is tracked.",
+  "description": "Invoice Matching exercise: approved invoices waiting for payment. A participant's process writes one row per approved invoice: automatically on green, after the reviewer's Approve otherwise. CreatedBy is the user whose process wrote the row; the course tracks progress by it.",
   "fields": [
-    {"Name": "InvoiceNumber", "DisplayName": "InvoiceNumber", "Description": "INV-<8 digits>", "FieldDataType": {"Name": "STRING", "LengthLimit": 50}, "IsRequired": false, "IsUnique": false},
-    {"Name": "PONumber", "DisplayName": "PONumber", "Description": "PO-<8 digits>", "FieldDataType": {"Name": "STRING", "LengthLimit": 50}, "IsRequired": false, "IsUnique": false},
-    {"Name": "Vendor", "DisplayName": "Vendor", "Description": "Vendor name as invoiced", "FieldDataType": {"Name": "STRING", "LengthLimit": 200}, "IsRequired": false, "IsUnique": false},
-    {"Name": "Currency", "DisplayName": "Currency", "Description": "ISO currency code", "FieldDataType": {"Name": "STRING", "LengthLimit": 10}, "IsRequired": false, "IsUnique": false},
-    {"Name": "Total", "DisplayName": "Total", "Description": "Invoice total, tax included", "FieldDataType": {"Name": "DECIMAL", "DecimalPrecision": 2}, "IsRequired": false, "IsUnique": false},
-    {"Name": "MatchStatus", "DisplayName": "MatchStatus", "Description": "green or yellow: what the matching said when the invoice was approved", "FieldDataType": {"Name": "STRING", "LengthLimit": 20}, "IsRequired": false, "IsUnique": false},
-    {"Name": "ApprovedBy", "DisplayName": "ApprovedBy", "Description": "'automatic' or the reviewer's e-mail", "FieldDataType": {"Name": "STRING", "LengthLimit": 200}, "IsRequired": false, "IsUnique": false},
-    {"Name": "InvoiceData", "DisplayName": "InvoiceData", "Description": "The invoice as JSON text (contract shape)", "FieldDataType": {"Name": "MULTILINE_TEXT", "LengthLimit": 10000}, "IsRequired": false, "IsUnique": false}
+    {"Name": "InvoiceNumber", "DisplayName": "InvoiceNumber", "Description": "The invoice number, INV-<8 digits>, from the extracted invoice.", "FieldDataType": {"Name": "STRING",
+        "LengthLimit": 50
+      }, "IsRequired": false, "IsUnique": false},
+    {"Name": "PONumber", "DisplayName": "PONumber", "Description": "The purchase order number the invoice was matched against, PO-<8 digits>.", "FieldDataType": {"Name": "STRING",
+        "LengthLimit": 50
+      }, "IsRequired": false, "IsUnique": false},
+    {"Name": "Vendor", "DisplayName": "Vendor", "Description": "The vendor name as it appears on the invoice.", "FieldDataType": {"Name": "STRING",
+        "LengthLimit": 200
+      }, "IsRequired": false, "IsUnique": false},
+    {"Name": "Currency", "DisplayName": "Currency", "Description": "The invoice currency, ISO code (EUR, USD, RON, ...).", "FieldDataType": {"Name": "STRING",
+        "LengthLimit": 10
+      }, "IsRequired": false, "IsUnique": false},
+    {"Name": "Total", "DisplayName": "Total", "Description": "The invoice total including tax, as invoiced.", "FieldDataType": {"Name": "DECIMAL",
+        "DecimalPrecision": 2
+      }, "IsRequired": false, "IsUnique": false},
+    {"Name": "MatchStatus", "DisplayName": "MatchStatus", "Description": "green, yellow or red: the match rating the invoice was approved with. green from the deterministic compare or the agent; yellow or red when a reviewer approved it anyway.", "FieldDataType": {"Name": "STRING",
+        "LengthLimit": 20
+      }, "IsRequired": false, "IsUnique": false},
+    {"Name": "ApprovedBy", "DisplayName": "ApprovedBy", "Description": "automatic when the process approved the invoice without a reviewer (green); otherwise the reviewer's e-mail, from the Invoice Validation app's ReviewerEmail output.", "FieldDataType": {"Name": "STRING",
+        "LengthLimit": 200
+      }, "IsRequired": false, "IsUnique": false},
+    {"Name": "InvoiceData", "DisplayName": "InvoiceData", "Description": "The extracted invoice as JSON text: out_InvoiceJSON of Extract Invoice Data (IXP), unchanged.", "FieldDataType": {"Name": "MULTILINE_TEXT",
+        "LengthLimit": 10000
+      }, "IsRequired": false, "IsUnique": false}
   ]
 }

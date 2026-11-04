@@ -32,6 +32,14 @@ const STATUS_TEXT: Record<string, string> = {
   review: 'Needs review',
 };
 
+/** Task data comes back from Action Center with its own key casing (POID is stored as Poid): match keys to the schema's names case-insensitively. */
+function matchFormKeys(data: Record<string, unknown>): Partial<FormData> {
+  const names = Object.keys(defaultFormData);
+  const out: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(data)) out[names.find((n) => n.toLowerCase() === k.toLowerCase()) ?? k] = v;
+  return out as Partial<FormData>;
+}
+
 function Form({ onInitTheme, darkTheme, onToggleTheme }: FormProps) {
   const [formData, setFormData] = useState<FormData>(defaultFormData);
   const [isReadOnly, setIsReadOnly] = useState(false);
@@ -54,7 +62,7 @@ function Form({ onInitTheme, darkTheme, onToggleTheme }: FormProps) {
   // 1. The task: merge over defaults (outputs are absent on first load), seed the theme, prefill the e-mail draft.
   useEffect(() => {
     actionApp.getTask().then((task) => {
-      const incoming = (task.data ?? {}) as Partial<FormData>;
+      const incoming = matchFormKeys((task.data ?? {}) as Record<string, unknown>);
       const merged: FormData = { ...defaultFormData, ...incoming };
       if (!merged.RejectionEmailHtml) {
         const mr = parseJson<Partial<MatchResult>>(merged.MatchResultJSON).value;
