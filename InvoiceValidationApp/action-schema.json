@@ -20,7 +20,7 @@
       "MatchResultJSON": {
         "type": "string",
         "required": true,
-        "description": "The match result as JSON text: {status: 'green'|'yellow'|'red', findings: [{area: 'vendor'|'buyer'|'tax'|'currency'|'line'|'total'|'po', field: the differing field name (name, taxId, taxRate, description, quantity, unitPrice, lineTotal, subtotal, total, …; empty for a whole missing or extra line), invoiceLine: integer or null (the invoice line n), poLine: integer or null (the matching purchase order line n), severity: 'yellow'|'red' (empty when the deterministic compare wrote the finding), invoiceValue: string, poValue: string, note: one sentence for the reviewer}], summary: two or three sentences for the reviewer, rejectionEmailHtml: the drafted supplier e-mail (HTML; empty for green)}. Every finding is highlighted on both sides in its severity colour."
+        "description": "The match result as JSON text: {status: 'green'|'yellow'|'red', findings: [{area: 'vendor'|'buyer'|'tax'|'currency'|'line'|'total'|'po', field: the differing field name (name, taxId, taxRate, description, quantity, unitPrice, lineTotal, subtotal, total, …; empty for a whole missing or extra line), invoiceLine: integer (the invoice line n) — 0, null or omitted when not about a line, poLine: integer — 0, null or omitted (the matching purchase order line n), severity: 'yellow'|'red' (empty when the deterministic compare wrote the finding), invoiceValue: string, poValue: string, note: one sentence for the reviewer}], summary: two or three sentences for the reviewer, rejectionEmailHtml: the drafted supplier e-mail (HTML; empty for green)}. Every finding is highlighted on both sides in its severity colour."
       }
     }
   },

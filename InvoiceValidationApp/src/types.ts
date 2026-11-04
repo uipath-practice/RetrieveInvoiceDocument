@@ -125,8 +125,9 @@ export function normaliseMatchResult(raw: Partial<MatchResult> | null): MatchRes
   };
 }
 
+/** A finding's line number: a positive integer; null, 0, a missing value or anything else means "not about a line" (low-code
+ *  agent schemas cannot emit a nullable integer, so agents send 0 — decided 2026-11-04). */
 function toLine(v: unknown): number | null {
-  if (v == null || v === '') return null;
-  const n = Number(v);
-  return Number.isFinite(n) ? n : null;
+  const n = typeof v === 'number' ? v : typeof v === 'string' && v.trim() !== '' ? Number(v) : NaN;
+  return Number.isInteger(n) && n > 0 ? n : null;
 }
