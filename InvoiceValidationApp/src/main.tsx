@@ -3,8 +3,11 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 
-// Dev only: Vite's pre-bundling breaks the PDF viewer's packaged worker URL; point pdf.js at the same worker file explicitly.
-if (import.meta.env.DEV) import('./devWorker')
+import { pdfjs } from 'react-pdf'
+import pdfWorkerUrl from '@uipath/ui-widgets-pdf-viewer/pdf.worker.min.mjs?url'
+
+// The widget's own worker reference is lost in the Vite bundle (and in dev pre-bundling); point pdf.js at the packaged worker explicitly.
+pdfjs.GlobalWorkerOptions.workerSrc = pdfWorkerUrl
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
