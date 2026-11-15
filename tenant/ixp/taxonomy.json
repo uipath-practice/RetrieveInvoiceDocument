@@ -7,7 +7,7 @@
   "title": "InvoicesIXP",
   "description": "",
   "created": "2026-11-03T07:56:26.374270Z",
-  "last_modified": "2026-11-03T07:57:05.625948Z",
+  "last_modified": "2026-11-15T15:08:49.848402Z",
   "model_family": "transformer-english",
   "source_ids": [
    "db9622c5f4846f47",
@@ -158,7 +158,7 @@
         "field_type_id": "9c245c753162abac",
         "kind": "Exact Text",
         "name": "Invoice Number",
-        "instructions": "Extract the unique invoice identification number.",
+        "instructions": "Extract the unique invoice identification number. It is always INV- followed by exactly 8 digits (for example INV-12345678). Copy every digit in order, including repeated digits; never drop or merge a digit.",
         "rule_set": null
        },
        {
@@ -185,7 +185,7 @@
         "field_type_id": "9c245c753162abac",
         "kind": "Exact Text",
         "name": "Purchase Order Number",
-        "instructions": "Extract the purchase order number associated with this invoice.",
+        "instructions": "Extract the purchase order number associated with this invoice. It is always PO- followed by exactly 8 digits (for example PO-12345678). Write the prefix with the Latin letters P and O only, never Greek or Cyrillic look-alike characters. Copy every digit in order, including repeated digits.",
         "rule_set": null
        },
        {
@@ -399,7 +399,7 @@
       "field_type_id": "9c245c753162abac",
       "kind": "Exact Text",
       "name": "Invoice Number",
-      "instructions": "Extract the unique invoice identification number.",
+      "instructions": "Extract the unique invoice identification number. It is always INV- followed by exactly 8 digits (for example INV-12345678). Copy every digit in order, including repeated digits; never drop or merge a digit.",
       "rule_set": null
      },
      {
@@ -426,7 +426,7 @@
       "field_type_id": "9c245c753162abac",
       "kind": "Exact Text",
       "name": "Purchase Order Number",
-      "instructions": "Extract the purchase order number associated with this invoice.",
+      "instructions": "Extract the purchase order number associated with this invoice. It is always PO- followed by exactly 8 digits (for example PO-12345678). Write the prefix with the Latin letters P and O only, never Greek or Cyrillic look-alike characters. Copy every digit in order, including repeated digits.",
       "rule_set": null
      },
      {
