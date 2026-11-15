@@ -2,7 +2,7 @@
   "displayName": "Payments Queue",
   "description": "Invoice Matching exercise: approved invoices waiting for payment. A participant's process writes one row per approved invoice: automatically on green, after the reviewer's Approve otherwise. CreatedBy is the user whose process wrote the row; the course tracks progress by it.",
   "fields": [
-    {"Name": "InvoiceNumber", "DisplayName": "InvoiceNumber", "Description": "The invoice number, INV-<8 digits>, from the extracted invoice.", "FieldDataType": {"Name": "STRING",
+    {"Name": "InvoiceNumber", "DisplayName": "InvoiceNumber", "Description": "The invoice number, INV-<8 digits>, as Retrieve Invoice Document returned it (out_InvoiceNumber); the extraction can misread it.", "FieldDataType": {"Name": "STRING",
         "LengthLimit": 50
       }, "IsRequired": false, "IsUnique": false},
     {"Name": "PONumber", "DisplayName": "PONumber", "Description": "The purchase order number the invoice was matched against, PO-<8 digits>.", "FieldDataType": {"Name": "STRING",

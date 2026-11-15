@@ -2,7 +2,7 @@
   "displayName": "Purchase Orders",
   "description": "Invoice Matching exercise: the buyer's purchase orders, as SAP would hold them. One row per order the course generator issued. Look an order up by POID = the PO number on the invoice. Participants' processes read it; the generator writes it.",
   "fields": [
-    {"Name": "POID", "DisplayName": "POID", "Description": "The purchase order number, PO-<8 digits>, unique: the key to look up by (the invoice's poNumber, the extraction's out_PONumber). Query results spell the field Poid.", "FieldDataType": {"Name": "STRING",
+    {"Name": "POID", "DisplayName": "POID", "Description": "The purchase order number, PO-<8 digits>, unique: the key to look up by (the invoice's poNumber, the extraction's out_PONumber). Data Fabric queries (uip df) spell it Poid; the Shared Data Fabric Connection returns POID.", "FieldDataType": {"Name": "STRING",
         "LengthLimit": 200
       }, "IsRequired": true, "IsUnique": true},
     {"Name": "PODATA", "DisplayName": "PODATA", "Description": "The purchase order as JSON text: {poNumber, poDate, currency, vendor {name, address, country, taxId, contact, phone}, buyer {same}, lines [{n, description, quantity, unitPrice, lineTotal, deliveryDate, material}], subtotal, taxName, taxRate, taxTotal, total}: the invoice shape plus poDate, contacts, per-line delivery date and material.", "FieldDataType": {"Name": "MULTILINE_TEXT",
